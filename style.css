@@ -8,6 +8,12 @@
 }
 
 body{
+    /*
+    display: flex;
+    justify-content: None;
+    align-items: None;
+    min-height: 100vh;
+    */
     background-color: white;
 
 }
