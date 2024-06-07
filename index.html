@@ -1,59 +1,46 @@
 <!DOCTYPE html>
-<!-- Main Menu -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HyperFix8</title>
-    <!-- Regular css style sheet-->
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <!-- Cool box icons (boxicons icons)-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-    <!-- remixicons icons-->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
-
-    <!--Google Font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <img src="HyperFix8_Logo.png" alt="Description of the image" style="width:300px; height:auto;">
+    <img src="{{ url_for('static', filename='HyperFix8_Logo.png') }}" alt="Description of the image" style="width:300px; height:auto;">
     <h1> Welcome to the main Menu of HyperFix8</h1>
     <p> This is not a paragraph </p>
-    <!-- Test Button for add colletable -->
-    <a href="add.html">
+    <a href="{{ url_for('add') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
        (add Menu)
         </button> 
     </a>
-    <!-- Test Button for create Users -->
-    <a href="createUser.html">
+    <a href="{{ url_for('register') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
        (createUser menu)
         </button> 
     </a>
-    <!-- Test Button for Update /Delete collectable -->
-    <a href="Update_Delete.html">
+    <a href="{{ url_for('update_delete') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
         (Update / Delete menu)
         </button> 
     </a>
-    <!-- Test Button for showColletable menu -->
-    <a href="showColletable.html">
+    <a href="{{ url_for('show_collectable') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
-         (showColletable menu)
+         (showCollectable menu)
         </button> 
     </a>
-    <!-- Test Button for settings menu -->
-    <a href="settings.html">
+    <a href="{{ url_for('settings') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
         (Settings menu)
         </button> 
     </a>
-    <!-- Test Button for Login menu -->
-    <a href="login.html">
+    <a href="{{ url_for('login') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
          (Login)
         </button> 
