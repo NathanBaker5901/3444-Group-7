@@ -3,28 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>HyperFix8 Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <!--Makes the login inputs in-->
+    <h1>Login</h1>
     <div class="wrapper">
-        <form action="">
-                <h1>Login</h1>
-                <div class="input-box">
-                    <input type="text" placeholder="UserName" required>
-                    </div>
-                    <div class="input-box">
-                        <input type="password"
-                        placeholder="Password" required>
-                    </div>
-    <!--Makes the button to login-->
-                    <button type="submit" class="btn"> Create Account </button>
-
-
-    <!--Returns to the main menu-->
-    <a href="index.html">
-        <button style="font-size:25px; background-color: grey; border-radius: 25px;">
-        Return to Main Menu
-        </button>
+        <!-- Flash message container -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <form method="post" action="{{ url_for('login') }}">
+            <h2>Login to your account</h2>
+            <div class="input-box">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="input-box">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p>Don't have a Hyperfix8 account? <a href="{{ url_for('register') }}" style="color: blue;">Create an account</a></p>
+    </div>
 </body>
 </html>
