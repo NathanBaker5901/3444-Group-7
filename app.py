@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for, flash
 import sqlite3
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Needed for messages
+app.secret_key = 'supersecretkey'  # Needed for flashing messages
 
 def check_user(email, password):
     conn = sqlite3.connect('users.db')
@@ -36,7 +36,7 @@ def login():
         user = check_user(email, password)
         if user:
             flash("Login successful", "success")
-            return redirect(url_for('home'))
+            return redirect(url_for('mainMenu'))
         else:
             flash("Invalid credentials", "danger")
     return render_template('login.html')
@@ -48,9 +48,17 @@ def register():
         email = request.form['email']
         password = request.form['password']
         message = create_user(username, email, password)
-        flash(message, "info")
-        return redirect(url_for('register'))
+        if message == "User created successfully":
+            flash(message, "info")
+            return redirect(url_for('mainMenu'))
+        else:
+            flash(message, "danger")
+            return redirect(url_for('register'))
     return render_template('createUser.html')
+
+@app.route('/mainMenu')
+def mainMenu():
+    return render_template('mainMenu.html')
 
 @app.route('/add')
 def add():
