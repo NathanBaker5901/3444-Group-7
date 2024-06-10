@@ -10,20 +10,64 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: rgb(46, 10, 205);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: #fff;
+        }
+        .container {
+            background: rgb(49, 61, 61);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            width: 400px;
+        }
+        .container img {
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .container h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .container p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .container .btn {
+            font-size: 25px;
+            background-color: grey;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            margin: 10px 0;
+            cursor: pointer;
+            width: 100%;
+        }
+        .container .btn:hover {
+            background-color: #555;
+        }
+    </style>
 </head>
 <body>
-    <img src="{{ url_for('static', filename='HyperFix8_Logo.png') }}" alt="HyperFix8 Logo" style="width:300px; height:auto;">
-    <h1> Welcome to HyperFix8</h1>
-    <p> Please select an option:</p>
-    <a href="{{ url_for('register') }}">
-        <button style="font-size:25px; background-color: grey; border-radius: 25px;">
-       Create Account
-        </button> 
-    </a>
-    <a href="{{ url_for('login') }}">
-        <button style="font-size:25px; background-color: grey; border-radius: 25px;">
-         Login
-        </button> 
-    </a>
+    <div class="container">
+        <img src="{{ url_for('static', filename='HyperFix8_Logo.png') }}" alt="HyperFix8 Logo">
+        <h1>WELCOME</h1>
+        <p>Please select an option to start your collection:</p>
+        <a href="{{ url_for('login') }}">
+            <button class="btn">Login</button>
+        </a>
+        <a href="{{ url_for('register') }}">
+            <button class="btn">Create Account</button>
+        </a>
+    </div>
 </body>
 </html>
