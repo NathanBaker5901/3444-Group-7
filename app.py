@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash, session
 import sqlite3
 
 app = Flask(__name__)
@@ -35,7 +35,6 @@ def login():
         password = request.form['password']
         user = check_user(email, password)
         if user:
-            flash("Login successful", "success")
             return redirect(url_for('mainMenu'))
         else:
             flash("Invalid credentials", "danger")
@@ -75,6 +74,15 @@ def show_collectable():
 @app.route('/settings')
 def settings():
     return render_template('settings.html')
+
+@app.route('/profile')
+def profile():
+    return render_template('userProfile.html')
+
+@app.route('/signout')
+def signout():
+    session.pop('userID', None)
+    return redirect(url_for('home'))
 
 if __name__ == "__main__":
     app.run(debug=True)

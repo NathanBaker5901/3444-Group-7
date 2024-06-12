@@ -14,8 +14,8 @@ body{
 }
 .wrapper{
     width: 420px;
-    background: rgb(49, 61, 61);
-    color: #fff;
+    background: #040514;
+    color: #b9ed6a;
     border-radius: 12px;
     padding: 30px 40px;
 }
@@ -36,14 +36,14 @@ body{
     background: transparent;
     border: none;
     outline: none;
-    border: 2px solid rgba(255, 255, 255, .2);
+    border: 2px solid #847c8b;
     border-radius: 40px;
     font-size: 16px;
-    color: #fff;
+    color: #b9ed6a;
     padding: 20px 45px 20px 20px;
 }
 .input-box input::placeholder{
-    color: #fff;
+    color: #b9ed6a;
 }
 .input-box i{
     position: absolute;
@@ -53,11 +53,11 @@ body{
     font-size: 20px;
 }
 .wrapper .remember-forgot{
-    accent-color: #fff;
+    accent-color: #847c8b;
     margin-right: 3px;   
 }
 .remember-forgot a{
-    color: #fff;
+    color: #847c8b;
     text-decoration: none;
 }
 .remember-forgot a:hover{
@@ -66,7 +66,7 @@ body{
 .wrapper .btn{
     width: 100%;
     height: 45px;
-    background: #fff;
+    background: #847c8b;
     border: none;
     outline: none;
     border-radius:  40px;
@@ -77,13 +77,17 @@ body{
     font-weight: 600;
     margin-top: 20px;
 }
+.wrapper .btn:hover {
+    background: #b9ed6a;
+    color: #040514;
+}
 .wrapper .create-account-link{
     font-size: 14.5px;
     text-align: center;
     margin: 20px 0 15px;
 }
 .create-account-link p a{
-    color: #fff;
+    color: #847c8b;
     text-decoration: none;
     font-weight: 600;
 }
