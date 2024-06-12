@@ -1,0 +1,46 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    font-family: fantasy;
+}
+
+.TopBarNav{
+    height: 80px;
+    width: 100%;
+    background: #040514;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+label.logo{
+    font-size: 35px;
+    font-weight: bold;
+    color: white;
+    line-height: 80px;
+}
+nav ul{
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+nav li{
+    margin: 0 8px;
+}
+nav a{
+    color: #28dbc6;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    width: 40px;
+    height: 40px;
+}
+nav a:hover {
+    color:#4d661f;
+}

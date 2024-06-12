@@ -51,7 +51,6 @@ def login():
         password = request.form['password']
         user = check_user(email, password)
         if user:
-            session['username'] = user[1] #Store username in session 
             flash("Login successful", "success")
             return redirect(url_for('mainMenu'))
         else:
@@ -108,6 +107,15 @@ def show_collectable():
 @app.route('/settings')
 def settings():
     return render_template('settings.html')
+
+@app.route('/profile')
+def profile():
+    return render_template('userProfile.html')
+
+@app.route('/signout')
+def signout():
+    session.pop('userID', None)
+    return redirect(url_for('home'))
 
 if __name__ == "__main__":
     app.run(debug=True)
