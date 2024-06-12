@@ -33,16 +33,19 @@
             </ul>
         {% endif %}
     {% endwith %}
+    <!-- Add button -->
     <a href="{{ url_for('add') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
        Add Menu
         </button> 
     </a>
+    <!-- update delete button -->
     <a href="{{ url_for('update_delete') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
         Update / Delete Menu
         </button> 
     </a>
+    <!-- show collectable button -->
     <a href="{{ url_for('show_collectable') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
          Show Collectable Menu
