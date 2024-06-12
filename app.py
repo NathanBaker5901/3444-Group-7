@@ -1,8 +1,11 @@
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash, session
 import sqlite3
+import os 
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Needed for flashing messages
+#Need to make an upload folder that stores the item pictures uploaded by users
 
 def check_user(email, password):
     conn = sqlite3.connect('users.db')
@@ -24,6 +27,19 @@ def create_user(username, email, password):
     finally:
         conn.close()
 
+#create item listing function need to create a database to store the item name, description, and picture
+def create_item (item_name, item_description, item_picture, user_id):
+    try:
+        conn = sqlite3.connect('users.db')
+        c = conn.cursor()
+        #item_id is assigned based on the users name in the user database
+        c.execute("INSERT INTO items (item_name, item_description, item_picture, user_id) VALUES (?, ?, ?, ?)", (item_name, item_description, item_picture, user_id))
+        conn.commit()
+    except sqlite3.IntegrityError:
+        return "Item name already exists for this user"
+    finally:
+        conn.close()
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -35,6 +51,7 @@ def login():
         password = request.form['password']
         user = check_user(email, password)
         if user:
+            session['username'] = user[1] #Store username in session 
             flash("Login successful", "success")
             return redirect(url_for('mainMenu'))
         else:
@@ -60,9 +77,25 @@ def register():
 def mainMenu():
     return render_template('mainMenu.html')
 
-@app.route('/add')
+@app.route('/add', methods=['GET', 'POST'])
 def add():
+    if request.method == 'POST':
+        item_name = request.form['item_name']
+        item_description = request.form['item_description']
+        file = request.files['item_picture']
+        #check for username in session
+        if 'username' in session:
+            user_id = session['username']
+            #check if file is uploaded
+            if file:
+                filename = secure_filename(file.filename)
+                #NEED TO ADD FILE VALIDATION ONCE FILE LOCATION IS DEFINED
+            else:
+                flash("No file uploaded")
+        else:
+            flash("user not logged in")
     return render_template('add.html')
+
 
 @app.route('/update_delete')
 def update_delete():
