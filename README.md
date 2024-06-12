@@ -4,8 +4,11 @@
 # GENERAL INFORMATION
 
 Name:Carlos Garcia 
+
 EUID:cmg0412
+
 Institution: University of North Texas 
+
 Email:CarlosGarcia9@my.untdallas.edu
  
 DATA & FILE OVERVIEW
