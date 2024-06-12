@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyperFix8 Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Login</h1>
+        <!-- Flash message container -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <form method="post" action="{{ url_for('login') }}">
+            <div class="input-box">
+                <input type="email" name="email" placeholder="Email" required>
+                <i class='bx bx-user-pin' ></i>
+            </div>
+            <div class="input-box">
+                <input type="password" name="password" placeholder="Password" required>
+                <i class='bx bx-lock' ></i>
+            </div>
+            <div class="remember-forgot">
+             <label><input type="checkbox" name="remember"> Remember Me</label>
+             <a href="#" style="color: blue; margin-left: 10px;">Forgot Password</a>
+        </div>
+            <button type="submit" class="btn">Login</button>
+        <div class="create-account-link">
+           <p>Don't have a Hyperfix8 account? <a href="{{ url_for('register') }}" style="color: blue;">Create an account</a></p>
+    </div>
+</form>
+</div>
+</body>
+</html>
