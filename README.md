@@ -12,3 +12,6 @@ DATA & FILE OVERVIEW
 
 File List: 
 
+## HOW TO COMPILE AND RUN:
+Pre installed: SQLite Installed in Vscode, have Flask in stalled -> type  "pip install flask" into the terminal. Be able to run HTML and Python code.
+
