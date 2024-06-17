@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, session
 import sqlite3
-import os 
-from werkzeug.utils import secure_filename
+import os #for uploading files
+from werkzeug.utils import secure_filename #for securing the files making sure theres no dangerous characters 
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Needed for flashing messages
@@ -87,7 +87,7 @@ def add():
             user_id = session['username']
             #check if file is uploaded
             if file:
-                filename = secure_filename(file.filename)
+                filename = secure_filename(file.filename) #secure the filename so no errors
                 #NEED TO ADD FILE VALIDATION ONCE FILE LOCATION IS DEFINED
             else:
                 flash("No file uploaded")
