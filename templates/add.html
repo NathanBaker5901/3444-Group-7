@@ -5,10 +5,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HyperFix8</title>
+    <title>HyperFix8</title> - Add Collectable</title>
 </head>
 <body>
-   <h1> Add Menu </h1>
+   <h1> Add Collectable </h1>
+
+   <form action="{{ url_for('add') }}" method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="item_name"> Item Name: </label>
+            <input type="text" id="item_name" name="item_name" reqiuired>
+        </div>
+        <div>
+            <label for="item_description"> Item Description: </label>
+            <input type="text" id="item_description" name="item_description" reqiuired>
+        </div>
+        <div>
+            <label for="item_picture"> Item Picture: </label>
+            <input type="file" id="item_picture" name="item_picture" reqiuired>
+        </div>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
 
     <a href="{{ url_for('mainMenu') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
