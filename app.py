@@ -5,7 +5,15 @@ from werkzeug.utils import secure_filename #for securing the files making sure t
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Needed for flashing messages
-#Need to make an upload folder that stores the item pictures uploaded by users
+UPLOAD_FOLDER = 'uploads' #Path to folder where uploaded files are stored
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'} #files user can upload
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER #set path to the folder
+
+#File validation function to check if the file is an allowed image
+def allowed_file(filename):
+    #checks if the file has a '.' in the filename
+    #checks if the name after '.' is in ALLOWED_EXTENSIONS uses lower() function to comapare to the names in ALLOWED_EXTENSIONS 
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def check_user(email, password):
     conn = sqlite3.connect('users.db')
@@ -30,15 +38,17 @@ def create_user(username, email, password):
 #create item listing function need to create a database to store the item name, description, and picture
 def create_item (item_name, item_description, item_picture, user_id):
     try:
-        conn = sqlite3.connect('users.db')
+        conn = sqlite3.connect('items.db')
         c = conn.cursor()
         #item_id is assigned based on the users name in the user database
         c.execute("INSERT INTO items (item_name, item_description, item_picture, user_id) VALUES (?, ?, ?, ?)", (item_name, item_description, item_picture, user_id))
         conn.commit()
+        return "Item created successfully"
     except sqlite3.IntegrityError:
         return "Item name already exists for this user"
     finally:
         conn.close()
+
 
 @app.route('/')
 def home():
@@ -51,6 +61,9 @@ def login():
         password = request.form['password']
         user = check_user(email, password)
         if user:
+            #set the session for the user_id and username
+            session['userID'] = user[0] #need to make sure this is the right collumn in the database
+            session['username'] = user[1] #need to make sure thsi is the right collumn in the database
             flash("Login successful", "success")
             return redirect(url_for('mainMenu'))
         else:
@@ -85,14 +98,20 @@ def add():
         #check for username in session
         if 'username' in session:
             user_id = session['username']
-            #check if file is uploaded
-            if file:
-                filename = secure_filename(file.filename) #secure the filename so no errors
-                #NEED TO ADD FILE VALIDATION ONCE FILE LOCATION IS DEFINED
+            #file validation and upload to uploads folder
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file.save(file_path)
+                create_item(item_name, item_description, file_path, user_id)
+                #Let user know item was added successfully
+                flash("Item successfully added", "success") 
             else:
-                flash("No file uploaded")
+                #Let user know they uploaded an invalid file and to use these file types
+                flash("Invalid file type. Please upload a PNG, JPG, or JPEG image.", "danger")
         else:
             flash("user not logged in")
+        return render_template('add.html')
     return render_template('add.html')
 
 
