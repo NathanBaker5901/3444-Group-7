@@ -87,7 +87,11 @@ def register():
 
 @app.route('/mainMenu')
 def mainMenu():
-    return render_template('mainMenu.html')
+    if 'username' in session:
+        username = session['username']
+        return render_template('mainMenu.html', username=username)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():

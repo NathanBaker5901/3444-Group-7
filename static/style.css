@@ -10,7 +10,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: rgb(46, 10, 205);
+    background-color: #092c3b;
 }
 .wrapper{
     width: 420px;
