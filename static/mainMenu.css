@@ -10,7 +10,7 @@ body{
 }
 
 .TopBarNav{
-    height: 80px;
+    height: 90px;
     width: 100%;
     background: #040514;
     display: flex;
@@ -43,4 +43,8 @@ nav a{
 }
 nav a:hover {
     color:#4d661f;
+}
+.logo img {
+    width: 100px;  
+    height: auto;
 }
