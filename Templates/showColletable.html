@@ -25,7 +25,13 @@
 </head>
 <body>
     <h1> showColletable menu </h1>
-
+    <h3>What itemt would you like to search for?</h3>
+    <!-- Adding the buttons for website-->
+    <div>
+        <label for="item_name"> Item Name: </label>
+        <input type="search" id="item_name" name="item_name" reqiuired>
+    </div>
+    <!--Button to go into the menu-->
     <a href="{{ url_for('mainMenu') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
         Return to Main Menu
