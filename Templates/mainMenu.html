@@ -22,18 +22,36 @@
             <li><a href="{{ url_for('signout') }}" title="Sign Out"><i class='bx bx-exit' ></i></a></li>
         </ul>
     </nav>
-    <div class="main-content">
-        <h1 class="welcome-text">WELCOME</h1>
-        <h2 class="username-text">{{ username }}</h2>
-        <a href="{{ url_for('add') }}">
-            <button class="menu-button">Add Menu</button>
-        </a>
-        <a href="{{ url_for('update_delete') }}">
-            <button class="menu-button">Update / Delete Menu</button>
-        </a>
-        <a href="{{ url_for('show_collectable') }}">
-            <button class="menu-button">Show Collectable Menu</button>
-        </a>
-    </div>
+<body>
+    <img src="{{ url_for('static', filename='HyperFix8_Logo.png') }}" alt="HyperFix8 Logo" style="width:300px; height:auto;">
+    <h1> HyperFix8 Main Menu</h1>
+    <!-- Flash message container -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <!-- Add button -->
+    <a href="{{ url_for('add') }}">
+        <button style="font-size:25px; background-color: grey; border-radius: 25px;">
+       Add Menu
+        </button> 
+    </a>
+    <!-- update delete button -->
+    <a href="{{ url_for('update_delete') }}">
+        <button style="font-size:25px; background-color: grey; border-radius: 25px;">
+        Update / Delete Menu
+        </button> 
+    </a>
+    <!-- show collectable button -->
+    <a href="{{ url_for('show_collectable') }}">
+        <button style="font-size:25px; background-color: grey; border-radius: 25px;">
+         Show Collectable Menu
+        </button> 
+    </a>
 </body>
 </html>
