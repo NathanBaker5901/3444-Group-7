@@ -1,3 +1,4 @@
+/* css for login and createUser .html */
 *{
     padding: 0;
     margin: 0;
@@ -11,7 +12,11 @@ body{
     align-items: center;
     min-height: 100vh;
     background-color: #092c3b;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    color: #28dbc6;
 }
+
 .wrapper{
     width: 420px;
     background: #040514;
@@ -73,8 +78,8 @@ body{
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     cursor: pointer;
     font-size: 16px;
-    color: #333;
-    font-weight: 600;
+    color: #000;
+    font-weight: bold;
     margin-top: 20px;
 }
 .wrapper .btn:hover {
@@ -94,3 +99,42 @@ body{
 .create-account-link p a:hover{
     text-decoration: underline;
 }
+
+/* Below is the css for index.html */
+.container {
+    background: #040514;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    width: 400px;
+}
+.container img {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+}
+.container h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+.container p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+.container .btn {
+    font-size: 25px;
+    background-color: #b9ed6a;
+    color: black;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    margin: 10px 0;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+}
+.container .btn:hover {
+    background-color: #28dbc6;
+    color: #000;
+}
+/* End of css for index.html */ 

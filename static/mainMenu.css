@@ -76,11 +76,11 @@ a {
     max-width: 400px;
     height: 60px;
     background-color: #b9ed6a;
-    color: #2a798c;
+    color: #040514;
     border: none;
     border-radius: 40px;
     padding: 10px 0;
-    margin: 10px auto;
+    margin: 20px auto;
     cursor: pointer;
     text-align: center;
     line-height: 40px;
@@ -90,5 +90,5 @@ a {
 
 .menu-button:hover {
     background-color: #28dbc6;
-    color: #040514;
+    color: black;
 }
