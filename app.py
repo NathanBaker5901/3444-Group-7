@@ -15,6 +15,7 @@ def allowed_file(filename):
     #checks if the name after '.' is in ALLOWED_EXTENSIONS uses lower() function to comapare to the names in ALLOWED_EXTENSIONS 
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 def check_user(email, password):
     conn = sqlite3.connect('users.db')
     c = conn.cursor()
