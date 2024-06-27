@@ -15,40 +15,58 @@ def allowed_file(filename):
     #checks if the name after '.' is in ALLOWED_EXTENSIONS uses lower() function to comapare to the names in ALLOWED_EXTENSIONS 
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+#User class to create a user and check a user
+class User:
+    #User constructor intitializes username, email, and password
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
+        self.password = password
 
-def check_user(email, password):
-    conn = sqlite3.connect('users.db')
-    c = conn.cursor()
-    c.execute("SELECT * FROM users WHERE email=? AND password=?", (email, password))
-    user = c.fetchone()
-    conn.close()
-    return user
-
-def create_user(username, email, password):
-    try:
+    #static method to check if a user exists in the database
+    @staticmethod
+    def check_user(email, password):
         conn = sqlite3.connect('users.db')
         c = conn.cursor()
-        c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, password))
-        conn.commit()
-        return "User created successfully"
-    except sqlite3.IntegrityError:
-        return "Username or email already exists"
-    finally:
+        c.execute("SELECT * FROM users WHERE email=? AND password=?", (email, password))
+        user = c.fetchone()
         conn.close()
+        return user
 
-#create item listing function need to create a database to store the item name, description, and picture
-def create_item (item_name, item_description, item_picture, user_id):
-    try:
-        conn = sqlite3.connect('items.db')
-        c = conn.cursor()
-        #item_id is assigned based on the users name in the user database
-        c.execute("INSERT INTO items (item_name, item_description, item_picture, user_id) VALUES (?, ?, ?, ?)", (item_name, item_description, item_picture, user_id))
-        conn.commit()
-        return "Item created successfully"
-    except sqlite3.IntegrityError:
-        return "Item name already exists for this user"
-    finally:
-        conn.close()
+    #static method to create a user in the database
+    @staticmethod
+    def create_user(username, email, password):
+        try:
+            conn = sqlite3.connect('users.db')
+            c = conn.cursor()
+            c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, password))
+            conn.commit()
+            return "User created successfully"
+        except sqlite3.IntegrityError:
+            return "Username or email already exists"
+        finally:
+            conn.close()
+class Item:
+    #Item constructor to intitialize item_name, item_description, item_picture, and user_id
+    def __init__(self, item_name, item_description, item_picture, user_id):
+        self.item_name = item_name
+        self.item_description = item_description
+        self.item_picture = item_picture
+        self.user_id = user_id
+#static method tocreate item listing function need to create a database to store the item name, description, and picture
+    @staticmethod
+    def create_item (item_name, item_description, item_picture, user_id):
+        try:
+            conn = sqlite3.connect('items.db')
+            c = conn.cursor()
+            #item_id is assigned based on the users name in the user database
+            c.execute("INSERT INTO items (item_name, item_description, item_picture, user_id) VALUES (?, ?, ?, ?)", (item_name, item_description, item_picture, user_id))
+            conn.commit()
+            return "Item created successfully"
+        except sqlite3.IntegrityError:
+            return "Item name already exists for this user"
+        finally:
+            conn.close()
 
 
 @app.route('/')
@@ -60,7 +78,7 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        user = check_user(email, password)
+        user = User.check_user(email, password)
         if user:
             #set the session for the user_id and username
             session['userID'] = user[0] #need to make sure this is the right collumn in the database
@@ -77,7 +95,7 @@ def register():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        message = create_user(username, email, password)
+        message = User.create_user(username, email, password)
         if message == "User created successfully":
             flash(message, "info")
             return redirect(url_for('mainMenu'))
@@ -108,7 +126,7 @@ def add():
                 filename = secure_filename(file.filename)
                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 file.save(file_path)
-                create_item(item_name, item_description, file_path, user_id)
+                Item.create_item(item_name, item_description, file_path, user_id)
                 #Let user know item was added successfully
                 flash("Item successfully added", "success") 
             else:
