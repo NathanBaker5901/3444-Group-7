@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <!-- Add collectable main menu -->
-
+<!--Define the language of the page as english using the UTF charset
+    Importing boxicon website -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HyperFix8</title> 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mainMenu.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='add.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,9 +38,10 @@
             <label for="item_description"> Item Description: </label>
             <input type="text" id="item_description" name="item_description" reqiuired>
         </div>
-        <div>
-            <label for="item_picture"> Item Picture: </label>
-            <input type="file" id="item_picture" name="item_picture" reqiuired>
+        <div class="image_upload"> 
+            <label title="Upload an image of type PNG, JPG, or JPEG" for="item_picture"> Item Picture: </label>
+            <input type="file" id="item_picture" name="item_picture" class="bx bx-upload" reqiuired>
+            <label for="item_picture" class="upload_button">
         </div>
         <div>
          
