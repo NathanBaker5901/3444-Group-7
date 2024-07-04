@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for, flash, ses
 import sqlite3
 import os #for uploading files
 from werkzeug.utils import secure_filename #for securing the files making sure theres no dangerous characters 
+from user_profile import ProfileDB  # Import ProfileDB for functionality
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Needed for flashing messages
@@ -150,13 +151,33 @@ def show_collectable():
 def settings():
     return render_template('settings.html')
 
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    return render_template('userProfile.html')
+    if 'userID' in session:
+        user_id = session['userID']
+        if request.method == 'POST':
+            bio = request.form['bio']
+            profile = ProfileDB.get_profile(user_id)
+            if profile:
+                ProfileDB.update_profile(user_id, bio, None)
+            else:
+                ProfileDB.create_profile(user_id, bio, None)
+            flash('Profile updated successfully!', 'success')
+        
+        profile = ProfileDB.get_profile(user_id)
+        if profile:
+            return render_template('userProfile.html', username=session['username'], bio=profile[2])
+        else:
+            return render_template('userProfile.html', username=session['username'], bio='')
+    else:
+        flash('You need to login first.', 'danger')
+        return redirect(url_for('login'))
+
 
 @app.route('/signout')
 def signout():
     session.pop('userID', None)
+    session.pop('username', None)
     return redirect(url_for('home'))
 
 if __name__ == "__main__":

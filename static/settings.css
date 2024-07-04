@@ -54,6 +54,11 @@ nav a:hover {
     width: 100px;  
     height: auto;
 }
+.nav-center-left {
+    position: absolute;
+    left: 15%;
+    transform: translateX(-50%);
+}
 .main-content {
     text-align: center;
     margin-top: 20px; 
