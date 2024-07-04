@@ -151,32 +151,73 @@ def show_collectable():
 def settings():
     return render_template('settings.html')
 
+class ProfileDB:
+    @staticmethod
+    def get_profile(username):
+        conn = sqlite3.connect('profiles.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, username, bio FROM profiles WHERE username=?", (username,))
+        profile = cursor.fetchone()
+        conn.close()
+        return profile
+
+    @staticmethod
+    def update_profile(username, bio, profile_pic):
+        conn = sqlite3.connect('profiles.db')
+        cursor = conn.cursor()
+        cursor.execute("UPDATE profiles SET bio=?, profile_pic=? WHERE username=?", (bio, profile_pic, username))
+        conn.commit()
+        conn.close()
+
+    @staticmethod
+    def create_profile(username, bio, profile_pic):
+        conn = sqlite3.connect('profiles.db')
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO profiles (username, bio, profile_pic) VALUES (?, ?, ?)", (username, bio, profile_pic))
+        conn.commit()
+        conn.close()
+
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    if 'userID' in session:
-        user_id = session['userID']
+    if 'username' in session:
+        username = session['username']
         if request.method == 'POST':
             bio = request.form['bio']
-            profile = ProfileDB.get_profile(user_id)
+            profile = ProfileDB.get_profile(username)
             if profile:
-                ProfileDB.update_profile(user_id, bio, None)
+                ProfileDB.update_profile(username, bio, None)
             else:
-                ProfileDB.create_profile(user_id, bio, None)
+                ProfileDB.create_profile(username, bio, None)
             flash('Profile updated successfully!', 'success')
         
-        profile = ProfileDB.get_profile(user_id)
+        profile = ProfileDB.get_profile(username)
         if profile:
-            return render_template('userProfile.html', username=session['username'], bio=profile[2])
+            return render_template('userProfile.html', username=username, bio=profile[2])
         else:
-            return render_template('userProfile.html', username=session['username'], bio='')
+            return render_template('userProfile.html', username=username, bio='')
     else:
         flash('You need to login first.', 'danger')
         return redirect(url_for('login'))
 
+@app.route('/search_user', methods=['POST'])
+def search_user():
+    search_query = request.form['search_query']
+    user_profile = ProfileDB.get_profile(search_query)
+    if user_profile:
+        return redirect(url_for('visit_user_profile', username=search_query))
+    else:
+        return "User not found", 404
+
+@app.route('/visitUserProfile/<username>')
+def visit_user_profile(username):
+    user_profile = ProfileDB.get_profile(username)
+    if user_profile:
+        return render_template('visitUserProfile.html', username=user_profile[1], bio=user_profile[2])
+    else:
+        return "User not found", 404
 
 @app.route('/signout')
 def signout():
-    session.pop('userID', None)
     session.pop('username', None)
     return redirect(url_for('home'))
 

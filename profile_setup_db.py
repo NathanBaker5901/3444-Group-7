@@ -6,10 +6,9 @@ def init_profile_db():
         c.execute('''
             CREATE TABLE IF NOT EXISTS profiles (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
+                username TEXT NOT NULL UNIQUE,
                 bio TEXT,
-                profile_pic TEXT,
-                FOREIGN KEY (user_id) REFERENCES users(id)
+                profile_pic TEXT
             )
         ''')
         conn.commit()

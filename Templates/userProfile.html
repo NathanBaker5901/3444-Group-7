@@ -20,6 +20,12 @@
             <h1>Profile</h1>
         </div>
         <ul>
+            <li>
+                <form method="POST" action="{{ url_for('search_user') }}">
+                    <input type="text" name="search_query" placeholder="Search user" required>
+                    <button type="submit">Search</button>
+                </form>
+            </li>
             <li><a href="{{ url_for('profile') }}" title="Profile"><i class='bx bxs-user-rectangle'></i></a></li>
             <li><a href="{{ url_for('settings') }}" title="Settings"><i class='bx bx-cog'></i></a></li>
             <li><a href="{{ url_for('signout') }}" title="Sign Out"><i class='bx bx-exit' ></i></a></li>
