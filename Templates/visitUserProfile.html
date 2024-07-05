@@ -30,6 +30,15 @@
         <p>Bio:</p>
         <p>{{ bio }}</p>
         <a href="{{ url_for('mainMenu') }}" class="menu-button">Return to Main Menu</a>
+        {% if is_following %}
+        <form action="{{ url_for('unfollow', username=username) }}" method="POST">
+            <button type="submit" class="menu-button">Unfollow</button>
+        </form>
+        {% else %}
+        <form action="{{ url_for('follow', username=username) }}" method="POST">
+            <button type="submit" class="menu-button">Follow</button>
+        </form>
+        {% endif %}
     </div>
 </body>
 </html>

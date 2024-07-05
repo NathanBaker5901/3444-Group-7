@@ -47,3 +47,4 @@ class ProfileDB:
                 if not profile:
                     c.execute("INSERT INTO profiles (username, bio, profile_pic) VALUES (?, '', '')", (username,))
             conn.commit()
+            

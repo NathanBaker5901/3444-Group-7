@@ -3,6 +3,7 @@ import sqlite3
 import os #for uploading files
 from werkzeug.utils import secure_filename #for securing the files making sure theres no dangerous characters 
 from user_profile import ProfileDB  # Import ProfileDB for functionality
+from follow_db import FollowDB #for the followers and following database 
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Needed for flashing messages
@@ -212,9 +213,36 @@ def search_user():
 def visit_user_profile(username):
     user_profile = ProfileDB.get_profile(username)
     if user_profile:
-        return render_template('visitUserProfile.html', username=user_profile[1], bio=user_profile[2])
+        is_following = False
+        if 'username' in session:
+            current_username = session['username']
+            following = FollowDB.get_following(current_username)
+            if username in [user[0] for user in following]:
+                is_following = True
+        return render_template('visitUserProfile.html', username=user_profile[1], bio=user_profile[2], is_following=is_following)
     else:
         return "User not found", 404
+
+@app.route('/follow/<username>', methods=['POST'])
+def follow(username):
+    if 'username' in session:
+        current_username = session['username']
+        FollowDB.follow_user(current_username, username)
+        flash(f'You are now following {username}!', 'success')
+    else:
+        flash('You need to login first.', 'danger')
+    return redirect(url_for('visit_user_profile', username=username))
+
+@app.route('/unfollow/<username>', methods=['POST'])
+def unfollow(username):
+    if 'username' in session:
+        current_username = session['username']
+        FollowDB.unfollow_user(current_username, username)
+        flash(f'You have unfollowed {username}.', 'success')
+    else:
+        flash('You need to login first.', 'danger')
+    return redirect(url_for('visit_user_profile', username=username))
+
 
 @app.route('/signout')
 def signout():
