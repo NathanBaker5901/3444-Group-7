@@ -97,3 +97,14 @@ a {
     background-color: #28dbc6;
     color: #040514;
 }
+
+.follow-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;  
+}
+
+.follow-buttons .menu-button {
+    flex: 1;
+    max-width: 180px;  
+}

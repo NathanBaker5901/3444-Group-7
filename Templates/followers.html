@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HyperFix8</title>
+    <title>Followers</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='userProfile.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
@@ -17,7 +17,7 @@
             <img src="{{ url_for('static', filename='HyperFix8_Logo_Crop.png') }}" alt="HyperFix8 Logo" class="logo-img">
         </a>
         <div class="nav-center-left">
-            <h1>Profile</h1>
+            <h1>Followers</h1>
         </div>
         <ul>
             <li><a href="{{ url_for('profile') }}" title="Profile"><i class='bx bxs-user-rectangle'></i></a></li>
@@ -26,19 +26,13 @@
         </ul>
     </nav>
     <div class="main-content">
-        <h1 class="username-text">{{ username }} </h1>
-        <p>Bio:</p>
-        <p>{{ bio }}</p>
+        <h1 class="username-text">Followers</h1>
+        <ul>
+            {% for user in followers %}
+                <li><a href="{{ url_for('visit_user_profile', username=user[0]) }}">{{ user[0] }}</a></li>
+            {% endfor %}
+        </ul>
         <a href="{{ url_for('profile') }}" class="menu-button">Return to Profile</a>
-        {% if is_following %}
-        <form action="{{ url_for('unfollow', username=username) }}" method="POST">
-            <button type="submit" class="menu-button">Unfollow</button>
-        </form>
-        {% else %}
-        <form action="{{ url_for('follow', username=username) }}" method="POST">
-            <button type="submit" class="menu-button">Follow</button>
-        </form>
-        {% endif %}
     </div>
 </body>
 </html>

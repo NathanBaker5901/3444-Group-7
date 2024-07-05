@@ -243,6 +243,16 @@ def unfollow(username):
         flash('You need to login first.', 'danger')
     return redirect(url_for('visit_user_profile', username=username))
 
+@app.route('/following/<username>')
+def following(username):
+    following_list = FollowDB.get_following(username)
+    return render_template('following.html', username=username, following=following_list)
+
+@app.route('/followers/<username>')
+def followers(username):
+    followers_list = FollowDB.get_followers(username)
+    return render_template('followers.html', username=username, followers=followers_list)
+
 
 @app.route('/signout')
 def signout():
