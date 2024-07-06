@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HyperFix8 Main Menu</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mainMenu.css') }}">
+    <title>Following</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='userProfile.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +17,7 @@
             <img src="{{ url_for('static', filename='HyperFix8_Logo_Crop.png') }}" alt="HyperFix8 Logo" class="logo-img">
         </a>
         <div class="nav-center-left">
-            <h1>Main Menu</h1>
+            <h1>Following</h1>
         </div>
         <ul>
             <li><a href="{{ url_for('profile') }}" title="Profile"><i class='bx bxs-user-rectangle'></i></a></li>
@@ -26,17 +26,13 @@
         </ul>
     </nav>
     <div class="main-content">
-        <h1 class="welcome-text">WELCOME</h1>
-        <h2 class="username-text">{{ username }}</h2>
-        <a href="{{ url_for('add') }}">
-            <button class="menu-button">Add Menu</button>
-        </a>
-        <a href="{{ url_for('update_delete') }}">
-            <button class="menu-button">Update / Delete Menu</button>
-        </a>
-        <a href="{{ url_for('show_collectable') }}">
-            <button class="menu-button">Show Collectable Menu</button>
-        </a>
+        <h1 class="username-text">Following</h1>
+        <ul>
+            {% for user in following %}
+                <li><a href="{{ url_for('visit_user_profile', username=user[0]) }}">{{ user[0] }}</a></li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('profile') }}" class="menu-button">Return to Profile</a>
     </div>
 </body>
 </html>
