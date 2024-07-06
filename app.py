@@ -146,7 +146,7 @@ def update_delete():
 
 @app.route('/show_collectable')
 def show_collectable():
-    return render_template('showColletable.html')
+    return render_template('show_Collectable.html')
 
 @app.route('/settings')
 def settings():
@@ -192,10 +192,14 @@ def profile():
             flash('Profile updated successfully!', 'success')
         
         profile = ProfileDB.get_profile(username)
+        followers = FollowDB.get_followers(username)
+        following = FollowDB.get_following(username)
+        followers_count = len(followers)
+        following_count = len(following)
         if profile:
-            return render_template('userProfile.html', username=username, bio=profile[2])
+            return render_template('userProfile.html', username=username, bio=profile[2], followers=followers, following=following, followers_count=followers_count, following_count=following_count)
         else:
-            return render_template('userProfile.html', username=username, bio='')
+            return render_template('userProfile.html', username=username, bio='', followers=followers, following=following, followers_count=followers_count, following_count=following_count)
     else:
         flash('You need to login first.', 'danger')
         return redirect(url_for('login'))

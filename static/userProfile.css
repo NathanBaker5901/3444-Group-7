@@ -1,4 +1,4 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -24,20 +24,24 @@ body{
     justify-content: space-between;
     padding: 0 20px;
 }
+
 label.logo{
     font-size: 35px;
     font-weight: bold;
     color: white;
     line-height: 80px;
 }
+
 nav ul{
     display: flex;
     align-items: center;
     list-style: none;
 }
+
 nav li{
     margin: 0 8px;
 }
+
 nav a{
     color: #28dbc6;
     font-size: 24px;
@@ -47,34 +51,40 @@ nav a{
     width: 40px;
     height: 40px;
 }
-nav a:hover {
-    color:#4d661f;
+
+nav a:hover{
+    color: #4d661f;
 }
-.logo img {
+
+.logo img{
     width: 100px;  
     height: auto;
 }
-.nav-center-left {
+
+.nav-center-left{
     position: absolute;
     left: 15%;
     transform: translateX(-50%);
 }
-.main-content {
+
+.main-content{
     text-align: center;
     margin-top: 20px; 
 }
 
-.welcome-text {
+.welcome-text{
     font-size: 100px;
 }
 
-.username-text {
+.username-text{
     font-size: 50px;
 }
+
 a {
     text-decoration: none;
 }
-.menu-button {
+
+.menu-button{
     display: block;
     font-size: 25px;
     width: 100%;
@@ -93,18 +103,45 @@ a {
     font-weight: 600;
 }
 
-.menu-button:hover {
+.menu-button:hover{
     background-color: #28dbc6;
     color: #040514;
 }
 
-.follow-buttons {
+.follow-buttons{
     display: flex;
     justify-content: center;
     gap: 10px;  
 }
 
-.follow-buttons .menu-button {
-    flex: 1;
-    max-width: 180px;  
+/* Start of follow/following button style */
+.follow-button {
+    display: block;
+    font-size: 20px;
+    width: 100%;
+    max-width: 150px;
+    height: 60px;
+    background-color: #b9ed6a;
+    color: #2a798c;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 0;
+    margin: 10px auto;
+    cursor: pointer;
+    text-align: center;
+    line-height: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    font-weight: 600;
 }
+
+.follow-button:hover {
+    background-color: #28dbc6;
+    color: #040514;
+}
+
+.count {
+    display: block;
+    font-size: 18px;
+    font-weight: 400;
+}
+/* End of follow/following button style */
