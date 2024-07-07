@@ -37,3 +37,22 @@ class FollowDB:
                 SELECT followee_username FROM follows WHERE follower_username=?
             ''', (username,))
             return c.fetchall()
+# This function is used to get another users followers        
+    @staticmethod
+    def get_other_user_followers(username):
+        with sqlite3.connect('follow.db') as conn:
+            c = conn.cursor()
+            c.execute('''
+                SELECT COUNT(*) FROM follows WHERE followee_username=?
+            ''', (username,))
+            return c.fetchone()[0]
+
+# This function is used to get another users following   
+    @staticmethod
+    def get_other_user_following(username):
+        with sqlite3.connect('follow.db') as conn:
+            c = conn.cursor()
+            c.execute('''
+                SELECT COUNT(*) FROM follows WHERE follower_username=?
+            ''', (username,))
+            return c.fetchone()[0]

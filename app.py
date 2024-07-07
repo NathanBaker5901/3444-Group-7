@@ -223,10 +223,20 @@ def visit_user_profile(username):
             following = FollowDB.get_following(current_username)
             if username in [user[0] for user in following]:
                 is_following = True
-        return render_template('visitUserProfile.html', username=user_profile[1], bio=user_profile[2], is_following=is_following)
+
+        # Fetch the counts using the new functions
+        following_count = FollowDB.get_other_user_following(username)
+        followers_count = FollowDB.get_other_user_followers(username)
+
+        return render_template('visitUserProfile.html', 
+                               username=user_profile[1], 
+                               bio=user_profile[2], 
+                               is_following=is_following, 
+                               following_count=following_count, 
+                               followers_count=followers_count)
     else:
         return "User not found", 404
-
+    
 @app.route('/follow/<username>', methods=['POST'])
 def follow(username):
     if 'username' in session:
