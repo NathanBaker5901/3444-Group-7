@@ -27,6 +27,10 @@
     </nav>
     <div class="main-content">
         <h1 class="username-text">{{ username }} </h1>
+        <div class="follow-buttons">
+            <a href="{{ url_for('following', username=username) }}" class="follow-button">Following<br><span class="count">{{ following_count }}</span></a>
+            <a href="{{ url_for('followers', username=username) }}" class="follow-button">Followers<br><span class="count">{{ followers_count }}</span></a>
+        </div>
         <p>Bio:</p>
         <p>{{ bio }}</p>
         <a href="{{ url_for('profile') }}" class="menu-button">Return to Profile</a>

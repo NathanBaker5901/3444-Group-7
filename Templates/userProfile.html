@@ -34,8 +34,8 @@
     <div class="main-content">
         <h1 class="username-text">{{ username }}</h1>
         <div class="follow-buttons">
-            <a href="{{ url_for('following', username=username) }}" class="menu-button">Following</a>
-            <a href="{{ url_for('followers', username=username) }}" class="menu-button">Followers</a>
+            <a href="{{ url_for('following', username=username) }}" class="follow-button">Following<br><span class="count">{{ following_count }}</span></a>
+            <a href="{{ url_for('followers', username=username) }}" class="follow-button">Followers<br><span class="count">{{ followers_count }}</span></a>
         </div>
         <form method="POST">
             <label for="bio">Bio:</label><br>
