@@ -156,7 +156,15 @@ def update_delete():
 
 @app.route('/show_collectable')
 def show_collectable():
-    return render_template('show_Collectable.html')
+    if 'username' in session:
+        username = session['username']
+        #call the get items functions for the user
+        items = Item.get_user_items(username)
+        return render_template('show_Collectable.html', items=items)
+    else:
+        flash("User not logged in")
+        return redirect(url_for('login'))
+    
 
 @app.route('/settings')
 def settings():
