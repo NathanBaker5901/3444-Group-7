@@ -68,6 +68,16 @@ class Item:
         finally:
             conn.close()
 
+    #static method to get each item from a user in order to correctly display the items
+    @staticmethod
+    def get_user_items(user_id):
+        conn = sqlite3.connect('items.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM items WHERE user_id=?", (user_id,))
+        items = c.fetchall()
+        conn.close()
+        return items
+
 
 @app.route('/')
 def home():
@@ -144,7 +154,13 @@ def update_delete():
 
 @app.route('/show_collectable')
 def show_collectable():
-    return render_template('showColletable.html')
+    if 'username' in session:
+        username = session['username']
+        items = Item.get_user_items(username)
+        return render_template('showColletable.html')
+    else: 
+        flash("User not logged in")
+        return redirect(url_for('login'))
 
 @app.route('/settings')
 def settings():
