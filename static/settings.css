@@ -14,6 +14,67 @@ body{
     align-items: center;
     min-height: 100vh;
 }
+/* toggle button */
+label {
+    width: 50px;
+    height: 20px;
+    position: relative;
+    display: block;
+    background: #ebebeb;
+    border-radius: 100px;
+    box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4), inset 0px -5px 15px rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: 0.3s; /* Smooth transition */
+}
+label::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 2.5px; /* Centering the circle vertically */
+    left: 2.5px; /* Initial position of the circle */
+    background: linear-gradient(180deg, #ffcc89, #d8860b);
+    border-radius: 50%; /* This makes the element a perfect circle */
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    transition: 0.3s; /* Smooth transition */
+}
+
+/* Add a class to indicate the toggled state */
+label.active::after {
+    left: 32.5px; /* Position of the circle when toggled */
+}
+
+/* Add a class to indicate the toggled state */
+input:checked + label::after {
+    left: 32.5px; /* Position of the circle when toggled */
+    background: linear-gradient(180deg, #777, #3a3a3a);
+}
+
+/* Change the background color when checked */
+input:checked + label {
+    background: #242424;
+}
+
+/* Hide the input */
+input {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+/* Make the back ground change in color */
+.background{
+    width: 100vw;
+    height: 100vh;
+    background: #092c3b;
+    z-index: -1;
+    position: absolute;
+    transition: 0.3s;
+}
+
+input:checked + label +.background{
+    background:#242424;
+}
+
 
 .TopBarNav{
     height: 90px;
@@ -53,6 +114,11 @@ nav a:hover {
 .logo img {
     width: 100px;  
     height: auto;
+}
+.nav-center-left {
+    position: absolute;
+    left: 15%;
+    transform: translateX(-50%);
 }
 .main-content {
     text-align: center;

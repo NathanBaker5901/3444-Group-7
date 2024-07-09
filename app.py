@@ -2,6 +2,8 @@ from flask import Flask, request, render_template, redirect, url_for, flash, ses
 import sqlite3
 import os #for uploading files
 from werkzeug.utils import secure_filename #for securing the files making sure theres no dangerous characters 
+from user_profile import ProfileDB  # Import ProfileDB for functionality
+from follow_db import FollowDB #for the followers and following database 
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Needed for flashing messages
@@ -154,25 +156,131 @@ def update_delete():
 
 @app.route('/show_collectable')
 def show_collectable():
-    if 'username' in session:
-        username = session['username']
-        items = Item.get_user_items(username)
-        return render_template('showColletable.html')
-    else: 
-        flash("User not logged in")
-        return redirect(url_for('login'))
+    return render_template('show_Collectable.html')
 
 @app.route('/settings')
 def settings():
     return render_template('settings.html')
 
-@app.route('/profile')
+class ProfileDB:
+    @staticmethod
+    def get_profile(username):
+        conn = sqlite3.connect('profiles.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, username, bio FROM profiles WHERE username=?", (username,))
+        profile = cursor.fetchone()
+        conn.close()
+        return profile
+
+    @staticmethod
+    def update_profile(username, bio, profile_pic):
+        conn = sqlite3.connect('profiles.db')
+        cursor = conn.cursor()
+        cursor.execute("UPDATE profiles SET bio=?, profile_pic=? WHERE username=?", (bio, profile_pic, username))
+        conn.commit()
+        conn.close()
+
+    @staticmethod
+    def create_profile(username, bio, profile_pic):
+        conn = sqlite3.connect('profiles.db')
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO profiles (username, bio, profile_pic) VALUES (?, ?, ?)", (username, bio, profile_pic))
+        conn.commit()
+        conn.close()
+
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    return render_template('userProfile.html')
+    if 'username' in session:
+        username = session['username']
+        if request.method == 'POST':
+            bio = request.form['bio']
+            profile = ProfileDB.get_profile(username)
+            if profile:
+                ProfileDB.update_profile(username, bio, None)
+            else:
+                ProfileDB.create_profile(username, bio, None)
+            flash('Profile updated successfully!', 'success')
+        
+        profile = ProfileDB.get_profile(username)
+        followers = FollowDB.get_followers(username)
+        following = FollowDB.get_following(username)
+        followers_count = len(followers)
+        following_count = len(following)
+        if profile:
+            return render_template('userProfile.html', username=username, bio=profile[2], followers=followers, following=following, followers_count=followers_count, following_count=following_count)
+        else:
+            return render_template('userProfile.html', username=username, bio='', followers=followers, following=following, followers_count=followers_count, following_count=following_count)
+    else:
+        flash('You need to login first.', 'danger')
+        return redirect(url_for('login'))
+
+@app.route('/search_user', methods=['POST'])
+def search_user():
+    search_query = request.form['search_query']
+    user_profile = ProfileDB.get_profile(search_query)
+    if user_profile:
+        return redirect(url_for('visit_user_profile', username=search_query))
+    else:
+        return "User not found", 404
+
+@app.route('/visitUserProfile/<username>')
+def visit_user_profile(username):
+    user_profile = ProfileDB.get_profile(username)
+    if user_profile:
+        is_following = False
+        if 'username' in session:
+            current_username = session['username']
+            following = FollowDB.get_following(current_username)
+            if username in [user[0] for user in following]:
+                is_following = True
+
+        # Fetch the counts using the new functions
+        following_count = FollowDB.get_other_user_following(username)
+        followers_count = FollowDB.get_other_user_followers(username)
+
+        return render_template('visitUserProfile.html', 
+                               username=user_profile[1], 
+                               bio=user_profile[2], 
+                               is_following=is_following, 
+                               following_count=following_count, 
+                               followers_count=followers_count)
+    else:
+        return "User not found", 404
+    
+@app.route('/follow/<username>', methods=['POST'])
+def follow(username):
+    if 'username' in session:
+        current_username = session['username']
+        FollowDB.follow_user(current_username, username)
+        flash(f'You are now following {username}!', 'success')
+    else:
+        flash('You need to login first.', 'danger')
+    return redirect(url_for('visit_user_profile', username=username))
+
+@app.route('/unfollow/<username>', methods=['POST'])
+def unfollow(username):
+    if 'username' in session:
+        current_username = session['username']
+        FollowDB.unfollow_user(current_username, username)
+        flash(f'You have unfollowed {username}.', 'success')
+    else:
+        flash('You need to login first.', 'danger')
+    return redirect(url_for('visit_user_profile', username=username))
+
+@app.route('/following/<username>')
+def following(username):
+    following_list = FollowDB.get_following(username)
+    return render_template('following.html', username=username, following=following_list)
+
+@app.route('/followers/<username>')
+def followers(username):
+    followers_list = FollowDB.get_followers(username)
+    return render_template('followers.html', username=username, followers=followers_list)
+
 
 @app.route('/signout')
 def signout():
-    session.pop('userID', None)
+    session.pop('username', None)
     return redirect(url_for('home'))
 
 if __name__ == "__main__":

@@ -16,6 +16,9 @@
         <a href="{{ url_for('mainMenu') }}" class="logo">
             <img src="{{ url_for('static', filename='HyperFix8_Logo_Crop.png') }}" alt="HyperFix8 Logo" class="logo-img">
         </a>
+        <div class="nav-center-left">
+            <h1>Settings</h1>
+        </div>
         <ul>
             <li><a href="{{ url_for('profile') }}" title="Profile"><i class='bx bxs-user-rectangle'></i></a></li>
             <li><a href="{{ url_for('settings') }}" title="Settings"><i class='bx bx-cog'></i></a></li>
@@ -24,10 +27,19 @@
     </nav>
 <body>
     <h1>Settings Menu </h1>
+     <!--Made a toggle for light and dark-->
+     <h2>Light and dark Mode</h2>
+     <input type="checkbox" id="darkmode-toggle"/>
+     <label for="darkmode-toggle"></label>
+     
+     <!--Makes the class for the background-->
+     <div class="background"></div>
 
     <a href="{{ url_for('mainMenu') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
         Return to Main Menu
         </button>
+    <!--Make the website remeber the dark and light mode-->
+    <script type="text/javascript" src="{{ url_for('static', filename='settings.js') }}"></script>
 </body>
 </html>

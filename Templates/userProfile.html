@@ -16,22 +16,33 @@
         <a href="{{ url_for('mainMenu') }}" class="logo">
             <img src="{{ url_for('static', filename='HyperFix8_Logo_Crop.png') }}" alt="HyperFix8 Logo" class="logo-img">
         </a>
+        <div class="nav-center-left">
+            <h1>Profile</h1>
+        </div>
         <ul>
+            <li>
+                <form method="POST" action="{{ url_for('search_user') }}">
+                    <input type="text" name="search_query" placeholder="Search user" required>
+                    <button type="submit">Search</button>
+                </form>
+            </li>
             <li><a href="{{ url_for('profile') }}" title="Profile"><i class='bx bxs-user-rectangle'></i></a></li>
             <li><a href="{{ url_for('settings') }}" title="Settings"><i class='bx bx-cog'></i></a></li>
             <li><a href="{{ url_for('signout') }}" title="Sign Out"><i class='bx bx-exit' ></i></a></li>
         </ul>
     </nav>
-</head>
-<body>
-    <h1>User Profile </h1>
-
-    <h2>Email name</h2>
-    <h2>Password name (That is hidden)</h2>
-    <a href="{{ url_for('mainMenu') }}">
-        <!--Buttond for return menu-->
-        <button style="font-size:25px; background-color: grey; border-radius: 25px;">
-        Return to Main Menu
-        </button>
+    <div class="main-content">
+        <h1 class="username-text">{{ username }}</h1>
+        <div class="follow-buttons">
+            <a href="{{ url_for('following', username=username) }}" class="follow-button">Following<br><span class="count">{{ following_count }}</span></a>
+            <a href="{{ url_for('followers', username=username) }}" class="follow-button">Followers<br><span class="count">{{ followers_count }}</span></a>
+        </div>
+        <form method="POST">
+            <label for="bio">Bio:</label><br>
+            <textarea name="bio" id="bio" rows="4" cols="50">{{ bio }}</textarea><br>
+            <button type="submit" class="menu-button">Save Profile</button>
+        </form>
+        <a href="{{ url_for('mainMenu') }}" class="menu-button">Return to Main Menu</a>
+    </div>
 </body>
 </html>
