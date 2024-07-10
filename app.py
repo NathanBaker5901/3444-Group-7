@@ -158,6 +158,12 @@ def update_delete():
 def show_collectable():
     if 'username' in session:
         username = session['username']
+        #call the profileDB function in order to get the correct username and bio in order to display the correct profile
+        profile = ProfileDB.get_profile(username)
+        if profile: 
+            bio = profile[2]
+        else:
+            bio = ''
         #call the get items functions for the user
         items = Item.get_user_items(username)
         return render_template('show_Collectable.html', items=items)
