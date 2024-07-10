@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HyperFix8 Main Menu</title>
+    <!-- have both the regular and the darkmode css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='darkmode.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mainMenu.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
@@ -38,5 +40,9 @@
             <button class="menu-button">Show Collectable Menu</button>
         </a>
     </div>
+    <!--Makes the class for the background-->
+     <div class="background"></div>
+     <!--Make the website remeber the dark and light mode-->
+     <script type="text/javascript" src="{{ url_for('static', filename='settings.js') }}"></script>
 </body>
 </html>

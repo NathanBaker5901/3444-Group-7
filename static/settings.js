@@ -1,18 +1,23 @@
-document.addEventListener('DOMContentLoaded', (event) => {
-    const toggleButton = document.getElementById('darkmode-toggle');
-
-    // Check the local storage for theme state
+document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('darkmode-toggle');
+    const background = document.querySelector('.background');
+    
+    // Check if dark mode is stored in localStorage
     if (localStorage.getItem('darkMode') === 'enabled') {
         document.body.classList.add('dark-mode');
-        toggleButton.checked = true;
+        background.classList.add('dark-mode');
+        toggle.checked = true;
     }
 
-    toggleButton.addEventListener('change', function () {
-        if (this.checked) {
-            document.body.classList.add('dark-mode');
+    // Toggle button event listener
+    toggle.addEventListener('change', () => {
+        document.body.classList.toggle('dark-mode');
+        background.classList.toggle('dark-mode');
+
+        // Update localStorage based on the current mode
+        if (document.body.classList.contains('dark-mode')) {
             localStorage.setItem('darkMode', 'enabled');
         } else {
-            document.body.classList.remove('dark-mode');
             localStorage.setItem('darkMode', 'disabled');
         }
     });
