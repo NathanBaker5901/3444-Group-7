@@ -7,7 +7,7 @@ from follow_db import FollowDB #for the followers and following database
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Needed for flashing messages
-UPLOAD_FOLDER = 'uploads' #Path to folder where uploaded files are stored
+UPLOAD_FOLDER = os.path.join('static', 'uploads') #Path to folder where uploaded files are stored
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'} #files user can upload
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER #set path to the folder
 
@@ -136,8 +136,11 @@ def add():
             #file validation and upload to uploads folder
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
-                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename).replace('\\', '/')
                 file.save(file_path)
+                #set the relative path for the image to be added
+                relative_path = os.path.join('uploads', filename).replace('\\', '/')
+                #call the create item function from the item class 
                 Item.create_item(item_name, item_description, file_path, user_id)
                 #Let user know item was added successfully
                 flash("Item successfully added", "success") 
@@ -160,7 +163,7 @@ def show_collectable():
         username = session['username']
         #call the get items functions for the user
         items = Item.get_user_items(username)
-        return render_template('show_Collectable.html', items=items)
+        return render_template('show_Collectable.html', items=items, username=username)
     else:
         flash("User not logged in")
         return redirect(url_for('login'))

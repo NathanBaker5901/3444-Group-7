@@ -10,6 +10,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
+    <style>
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-gap: 40px;
+            padding: 20px;
+            max-width: 1000px;
+        }
+
+        .item-card {
+            border: 1px solid #ffffff;
+            padding: 10px;
+            text-align: center;
+
+        }   
+        .item img { 
+            max-width: 100%;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
     <nav class="TopBarNav">
@@ -34,12 +54,22 @@
         <label for="item_name"> Item Name: </label>
         <input type="search" id="item_name" name="item_name" reqiuired>
     </div>
+    
+    <div class="item-grid">
+        {% for item in items %}
+            <div class="item">
+                <h2>{{ item[1] }}</h2>
+                <p>{{ item[2] }}</p>
+                <img src="{{ url_for('static', filename=item[3].replace('\\', '/')) }}" alt="Item Picture">
+            </div>
+        {% endfor %}
+    </div>
+
     <!--Button to go into the menu-->
     <a href="{{ url_for('mainMenu') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
         Return to Main Menu
-        </button> 
-        
+        </button>   
     </a>
 </body>
 </html>
