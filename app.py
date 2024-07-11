@@ -141,7 +141,7 @@ def add():
                 #set the relative path for the image to be added
                 relative_path = os.path.join('uploads', filename).replace('\\', '/')
                 #call the create item function from the item class 
-                Item.create_item(item_name, item_description, file_path, user_id)
+                Item.create_item(item_name, item_description, relative_path, user_id)
                 #Let user know item was added successfully
                 flash("Item successfully added", "success") 
             else:
@@ -161,15 +161,15 @@ def update_delete():
 def show_collectable():
     if 'username' in session:
         username = session['username']
-        #call the profileDB function in order to get the correct username and bio in order to display the correct profile
-        profile = ProfileDB.get_profile(username)
-        if profile: 
-            bio = profile[2]
-        else:
-            bio = ''
-        #call the get items functions for the user
         items = Item.get_user_items(username)
-        return render_template('show_Collectable.html', items=items, username=username)
+        processed_items = []
+        for item in items:
+            processed_items.append({
+                'item_name': item[1],
+                'item_description': item[2],
+                'item_picture': item[3].replace('\\', '/'),  # Normalize path separators
+            })
+        return render_template('show_Collectable.html', items=processed_items, username=username)
     else:
         flash("User not logged in")
         return redirect(url_for('login'))

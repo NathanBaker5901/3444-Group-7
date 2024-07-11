@@ -58,9 +58,9 @@
     <div class="item-grid">
         {% for item in items %}
             <div class="item">
-                <h2>{{ item[1] }}</h2>
-                <p>{{ item[2] }}</p>
-                <img src="{{ url_for('static', filename=item[3].replace('\\', '/')) }}" alt="Item Picture">
+                <h2>{{ item['item_name'] }}</h2>
+                <p>{{ item['item_description'] }}</p>
+                <img src="{{ url_for('static', filename=item['item_picture']) }}" alt="Item Picture">
             </div>
         {% endfor %}
     </div>
