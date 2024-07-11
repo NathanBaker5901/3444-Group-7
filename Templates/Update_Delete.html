@@ -29,7 +29,7 @@
 <body>
     <h1> Update / Delete Menu </h1>
 
-    <a href="{{ url_for('mainMenu') }}">
+    
         <!--Add the buttons for updating and deleting-->
         <div>
             <label for="item_name"> Item Name: </label>
@@ -39,6 +39,7 @@
         <div>
             <input type="submit" value="Submit">
         </div>
+        <a href="{{ url_for('mainMenu') }}">
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
         Return to Main Menu
         </button> 
