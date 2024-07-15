@@ -16,8 +16,10 @@ DATA & FILE OVERVIEW
 File List: 
 
 ## HOW TO COMPILE AND RUN:
-Pre installed: SQLite Installed in Vscode, have Flask in stalled -> type  "pip install flask" into the terminal. Be able to run HTML and Python code version 3.8.
+Pre installed: SQLite Installed in Vscode, have Flask installed -> type  "pip install flask" into the terminal. Be able to run HTML and Python code version 3.8.
 
-1. In terminal type "python3 app.py" or F5 to run the code.
-2. Press "CTRL + left click" on the HTTP://127.0.0.1:5000 to open the website LOCALLY
+1. Zip the files into your preffered directory.  
+2. Open the vscode with the preffered directory. 
+3. In terminal type "python3 app.py" or F5 to run the code.
+4. Press "CTRL + left click" on the HTTP://127.0.0.1:5000 to open the website LOCALLY
 
