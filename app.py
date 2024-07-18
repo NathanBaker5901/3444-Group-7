@@ -4,7 +4,7 @@ import os #for uploading files
 from werkzeug.utils import secure_filename #for securing the files making sure theres no dangerous characters 
 from user_profile import ProfileDB  # Import ProfileDB for functionality
 from follow_db import FollowDB #for the followers and following database 
-
+import re #regular expressions for python
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Needed for flashing messages
 UPLOAD_FOLDER = os.path.join('static', 'uploads') #Path to folder where uploaded files are stored
@@ -48,6 +48,23 @@ class User:
             return "Username or email already exists"
         finally:
             conn.close()
+    # Part of the forget password, gets the email first
+    @staticmethod
+    def get_user_by_email(email):
+        conn = sqlite3.connect('users.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM users WHERE email=?", (email,))
+        user = c.fetchone()
+        conn.close()
+        return user
+    # Made a new password into the users.db
+    @staticmethod
+    def update_password(email, new_password):
+        conn = sqlite3.connect('users.db')
+        c = conn.cursor()
+        c.execute("UPDATE users SET password=? WHERE email=?", (new_password, email))
+        conn.commit()
+        conn.close()
 class Item:
     #Item constructor to intitialize item_name, item_description, item_picture, and user_id
     def __init__(self, item_name, item_description, item_picture, user_id):
