@@ -10,12 +10,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
+    <!--Small css style display for the grid of images for the users collectables -->
     <style>
         .item-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            grid-gap: 40px;
-            padding: 20px;
+            grid-gap: 5px;
+            padding: 5px;
             max-width: 1000px;
         }
 
@@ -36,7 +37,7 @@
         <a href="{{ url_for('mainMenu') }}" class="logo">
             <img src="{{ url_for('static', filename='HyperFix8_Logo_Crop.png') }}" alt="HyperFix8 Logo" class="logo-img">
         </a>
-        <div class="nav-center-left">
+        <div class="nav-center">
             <h1>Show Collectables</h1>
         </div>
         <ul>
@@ -47,8 +48,8 @@
     </nav>
 </head>
 <body>
-    <h1> showColletable menu </h1>
-    <h3>What itemt would you like to search for?</h3>
+    <h1> Show Collectable menu </h1>
+    <h3>What item would you like to search for?</h3>
     <!-- Adding the buttons for website-->
     <div>
         <label for="item_name"> Item Name: </label>
@@ -60,7 +61,9 @@
             <div class="item">
                 <h2>{{ item['item_name'] }}</h2>
                 <p>{{ item['item_description'] }}</p>
-                <img src="{{ url_for('static', filename=item['item_picture']) }}" alt="Item Picture">
+                <a href="{{ url_for('single_Collectable', item_name=item['item_name']) }}">
+                    <img src="{{ url_for('static', filename=item['item_picture']) }}" alt="Item Picture">
+                </a>
             </div>
         {% endfor %}
     </div>

@@ -191,6 +191,27 @@ def show_collectable():
         flash("User not logged in")
         return redirect(url_for('login'))
     
+@app.route('/single_Collectable/<item_name>')
+def single_Collectable(item_name):
+    if 'username' in session:
+        username = session['username']
+    conn = sqlite3.connect('items.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM items WHERE item_name=?", (item_name,))
+    item = c.fetchone()
+    conn.close()
+    if item:
+        item_dict = {
+            'id': item[0],
+            'item_name': item[1],
+            'item_description': item[2],
+            'item_picture': item[3].replace('\\', '/'),
+            'user_id': item[4]
+        }
+        return render_template('single_Collectable.html', item=item_dict, username=username)
+    else:
+        flash('Item not found', 'danger')
+        return redirect(url_for('show_collectable'))  
 
 @app.route('/settings')
 def settings():
