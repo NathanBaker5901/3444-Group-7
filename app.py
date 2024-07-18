@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename #for securing the files making sure t
 from user_profile import ProfileDB  # Import ProfileDB for functionality
 from follow_db import FollowDB #for the followers and following database 
 import re #regular expressions for python
+from itsdangerous import URLSafeTimedSerializer #Used to make a reset token to reset password
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Needed for flashing messages
 UPLOAD_FOLDER = os.path.join('static', 'uploads') #Path to folder where uploaded files are stored
@@ -60,11 +61,17 @@ class User:
     # Made a new password into the users.db
     @staticmethod
     def update_password(email, new_password):
-        conn = sqlite3.connect('users.db')
-        c = conn.cursor()
-        c.execute("UPDATE users SET password=? WHERE email=?", (new_password, email))
-        conn.commit()
-        conn.close()
+        try:
+            conn = sqlite3.connect('users.db')
+            c = conn.cursor()
+            c.execute("UPDATE users SET password=? WHERE email=?", (new_password, email))
+            conn.commit()
+            
+            return "Password changed successfully"
+        except sqlite3.IntegrityError:
+            return "Password changed failed"
+        finally:
+            conn.close()
 class Item:
     #Item constructor to intitialize item_name, item_description, item_picture, and user_id
     def __init__(self, item_name, item_description, item_picture, user_id):
@@ -173,6 +180,22 @@ def add():
 @app.route('/update_delete')
 def update_delete():
     return render_template('Update_Delete.html')
+
+
+#Makes a forgot_password in the html
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        message = User.update_password(email, password)
+        if message == "Password changed successfully":
+            flash(message, "info")
+            return redirect(url_for('login'))
+        else:
+            flash(message, "danger")
+            return redirect(url_for('login'))
+    return render_template('forgot_password.html')
 
 @app.route('/show_collectable')
 def show_collectable():
