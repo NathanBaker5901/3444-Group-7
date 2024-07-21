@@ -10,35 +10,24 @@
 <body>
     <div class="wrapper">
         <h1>Login</h1>
-        <!-- Flash message container used for login success testing -->
-        <!-- {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul class="flashes">
-                    {% for category, message in messages %}
-                        <li class="{{ category }}">{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-        -->
         <form method="post" action="{{ url_for('login') }}">
             <div class="input-box">
-                <input type="email" name="email" placeholder="Email" required>
-                <i class='bx bx-user-pin' ></i>
+                <input type="text" name="identifier" placeholder="Email or Username" required>
+                <i class='bx bx-user-pin'></i>
             </div>
             <div class="input-box">
                 <input type="password" name="password" placeholder="Password" required>
-                <i class='bx bx-lock' ></i>
+                <i class='bx bx-lock'></i>
             </div>
             <div class="remember-forgot">
-             <label><input type="checkbox" name="remember"> Remember Me</label>
-             <a href="{{ url_for('forgot_password') }}" style="color: blue; margin-left: 10px;">Forgot Password</a>
-        </div>
+                <label><input type="checkbox" name="remember"> Remember Me</label>
+                <a href="{{ url_for('forgot_password') }}" style="color: blue; margin-left: 10px;">Forgot Password</a>
+            </div>
             <button type="submit" class="btn">Login</button>
-        <div class="create-account-link">
-           <p>Don't have a Hyperfix8 account? <a href="{{ url_for('register') }}" style="color: blue;">Create an account</a></p>
+            <div class="create-account-link">
+                <p>Don't have a Hyperfix8 account? <a href="{{ url_for('register') }}" style="color: blue;">Create an account</a></p>
+            </div>
+        </form>
     </div>
-</form>
-</div>
 </body>
 </html>

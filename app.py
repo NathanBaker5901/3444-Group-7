@@ -18,6 +18,21 @@ def allowed_file(filename):
     #checks if the name after '.' is in ALLOWED_EXTENSIONS uses lower() function to comapare to the names in ALLOWED_EXTENSIONS 
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# Function to check login credentials for email or username
+def check_login(identifier, password):
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    
+    # Check if the identifier is an email or username
+    cursor.execute("SELECT * FROM users WHERE email=? OR username=?", (identifier, identifier))
+    user = cursor.fetchone()
+
+    print(f"Debug: Retrieved user: {user}")  # Debug output
+    
+    if user and user[3] == password: 
+        return user
+    return None
+
 #User class to create a user and check a user
 class User:
     #User constructor intitializes username, email, and password
@@ -112,17 +127,21 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
+        identifier = request.form['identifier']
         password = request.form['password']
-        user = User.check_user(email, password)
+        
+        user = check_login(identifier, password)
+        print(f"Debug: User after check_login: {user}")  # Debug output
+
         if user:
-            #set the session for the user_id and username
-            session['userID'] = user[0] #need to make sure this is the right collumn in the database
-            session['username'] = user[1] #need to make sure thsi is the right collumn in the database
-            flash("Login successful", "success")
+            # Perform login actions 
+            session['userID'] = user[0]  
+            session['username'] = user[1]  
+
             return redirect(url_for('mainMenu'))
         else:
-            flash("Invalid credentials", "danger")
+            flash('Login failed. Please check your identifier and password.', 'danger')
+    
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
