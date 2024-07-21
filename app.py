@@ -118,6 +118,20 @@ class Item:
         items = c.fetchall()
         conn.close()
         return items
+    #Searches the item using a query and finds the item for that user
+    @staticmethod
+    def search_user_items(user_id, search_term):
+        try:
+            conn = sqlite3.connect('items.db')
+            c = conn.cursor()
+            search_query = f"%{search_term}%"
+            c.execute("SELECT * FROM items WHERE user_id=? AND (item_name LIKE ? OR item_description LIKE ?)", (user_id, search_query, search_query))
+            items = c.fetchall()
+        except sqlite3.IntegrityError:
+            print("Error item can't be searched")
+        finally:
+            conn.close()
+            return items
     
     @staticmethod
     def update_item(item_id, new_name, new_description):
