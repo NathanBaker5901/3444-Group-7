@@ -27,25 +27,34 @@
             <li><a href="{{ url_for('signout') }}" title="Sign Out"><i class='bx bx-exit' ></i></a></li>
         </ul>
     </nav>
-</head>
-<body>
-    <h1> Update / Delete Menu </h1>
 
-    
-        <!--Add the buttons for updating and deleting-->
-        <div>
-            <label for="item_name"> Item Name: </label>
-            <!--searches for the item in database-->
-            <input type="search" id="item_name" name="item_name" data-search reqiuired>
-        </div>
-        <!--Make the submit button-->
-        <div>
-            <input type="submit" value="Submit">
-        </div>
-        <a href="{{ url_for('mainMenu') }}">
-        <button style="font-size:25px; background-color: grey; border-radius: 25px;">
-        Return to Main Menu
-        </button> 
+    <h1>Update / Delete Menu</h1>
+
+    <div class="item-grid">
+        {% for item in items %}
+            <div class="item">
+                <h2>Item ID: {{ item['item_id'] }}</h2>
+                <h2>{{ item['item_name'] }}</h2>
+                <p>{{ item['item_description'] }}</p>
+                <a href="{{ url_for('single_Collectable', item_name=item['item_name']) }}">
+                    <img src="{{ url_for('static', filename=item['item_picture']) }}" alt="Item Picture">
+                </a>
+                <div>
+                    <!-- Update button (currently inactive) -->
+                    <button type="button" onclick="alert('Update functionality is not implemented yet')">Update</button>
+                    
+                    <!-- Delete form -->
+                    <form action="{{ url_for('update_delete') }}" method="POST" style="display:inline;">
+                        <input type="hidden" name="item_id" value="{{ item['item_id'] }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <a href="{{ url_for('mainMenu') }}">
+        <button style="font-size:25px; background-color: grey; border-radius: 25px;">Return to Main Menu</button>
     </a>
 </body>
 </html>

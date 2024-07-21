@@ -118,6 +118,39 @@ class Item:
         items = c.fetchall()
         conn.close()
         return items
+    
+    @staticmethod
+    def update_item(item_id, new_name, new_description):
+        conn = None
+        try:
+            conn = conn = sqlite3.connect('items.db')
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            cursor.execute('UPDATE items SET item_name = ?, item_description = ? WHERE item_id = ?', (new_name, new_description, item_id))
+            conn.commit()
+        except sqlite3.Error as e:
+            print(f"An error occurred: {e}")
+        finally:
+            if conn:
+                conn.close()
+
+    @staticmethod
+    def delete_item(item_id):
+        conn = None
+        try:
+            conn = conn = sqlite3.connect('items.db')
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            cursor.execute('DELETE FROM items WHERE id = ?', (item_id))
+            conn.commit()
+        except sqlite3.Error as e:
+            print(f"An error occurred: {e}")
+        finally:
+            if conn:
+                conn.close()
+
+
+
 
 
 @app.route('/')
@@ -196,9 +229,28 @@ def add():
     return render_template('add.html')
 
 
-@app.route('/update_delete')
+@app.route('/update_delete', methods=['GET', 'POST'])
 def update_delete():
-    return render_template('Update_Delete.html')
+    if request.method == 'POST':
+        item_id = request.form['item_id']
+        Item.delete_item(item_id)
+
+        return redirect(url_for('update_delete'))
+    if 'username' in session:
+        username = session['username']
+        items = Item.get_user_items(username)
+        processed_items = []
+        for item in items:
+            processed_items.append({
+                'item_id': item[0],
+                'item_name': item[1],
+                'item_description': item[2],
+                'item_picture': item[3].replace('\\', '/'),  # Normalize path separators
+            })
+        return render_template('update_delete.html', items=processed_items, username=username)
+    return render_template('update_delete.html', items=items)
+
+
 
 
 #Makes a forgot_password in the html
