@@ -163,12 +163,8 @@ class Item:
             if conn:
                 conn.close()
 
-
-
-
-
 @app.route('/')
-def home():
+def home(): 
     return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -282,12 +278,16 @@ def forgot_password():
             return redirect(url_for('login'))
     return render_template('forgot_password.html')
 
+#Function to show all collectables for a user
 @app.route('/show_collectable')
 def show_collectable():
+    #checks for the username in session 
     if 'username' in session:
         username = session['username']
+        #get the items for that user
         items = Item.get_user_items(username)
         processed_items = []
+        #for loop find each item so all of the items will be displayed with the name, description, and picture
         for item in items:
             processed_items.append({
                 'item_name': item[1],
@@ -296,11 +296,14 @@ def show_collectable():
             })
         return render_template('show_Collectable.html', items=processed_items, username=username)
     else:
+        #if the user is not logged in, redirect to the login page
         flash("User not logged in")
         return redirect(url_for('login'))
     
+    #function to allow users to click on an image to get a full view of an item. 
 @app.route('/single_Collectable/<item_name>')
 def single_Collectable(item_name):
+    #checks for the username in session
     if 'username' in session:
         username = session['username']
     conn = sqlite3.connect('items.db')
@@ -308,13 +311,12 @@ def single_Collectable(item_name):
     c.execute("SELECT * FROM items WHERE item_name=?", (item_name,))
     item = c.fetchone()
     conn.close()
+    #Use a similar formual to the items for loop in the show_collectable function to get a signle item name, description, and picture
     if item:
         item_dict = {
-            'id': item[0],
             'item_name': item[1],
             'item_description': item[2],
             'item_picture': item[3].replace('\\', '/'),
-            'user_id': item[4]
         }
         return render_template('single_Collectable.html', item=item_dict, username=username)
     else:
