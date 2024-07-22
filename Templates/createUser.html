@@ -1,14 +1,20 @@
 <!DOCTYPE html>
+<!-- Define as HTML -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of  webpage -->
     <title>HyperFix8 Create Account</title>
+    <!-- Link to  CSS file -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Link to Boxicons for icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
+    <!-- Wrapper div for content -->
     <div class="wrapper">
+        <!-- Heading for create account page -->
         <h1>Create Account</h1>
         <!-- Flash message container -->
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -20,20 +26,26 @@
                 </ul>
             {% endif %}
         {% endwith %}
+        <!-- Creating a new account form -->
         <form method="post" action="{{ url_for('register') }}">
+            <!-- Input field Username with icon-->
             <div class="input-box">
                 <input type="text" name="username" placeholder="Username" required>
                 <i class='bx bx-user-pin' ></i>
             </div>
+            <!-- Input field Email with icon-->
             <div class="input-box">
                 <input type="email" name="email" placeholder="Email" required>
                 <i class='bx bx-envelope'></i>
             </div>
+            <!-- Input field Password with icon-->
             <div class="input-box">
                 <input type="password" name="password" placeholder="Password" required>
                 <i class='bx bx-lock' ></i>
             </div>
+            <!-- Submit button "Create a new account" -->
             <button type="submit" class="btn">Create Account</button>
+            <!-- Link to login page -->
             <div class="create-account-link">
                 <p>Already have a Hyperfix8 account? <a href="{{ url_for('login') }}" style="color: blue;">Login</a></p>
             </div>
