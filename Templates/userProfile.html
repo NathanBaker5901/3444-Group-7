@@ -1,24 +1,33 @@
 <!DOCTYPE html>
+<!-- Define as HTML -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the webpage -->
     <title>HyperFix8</title>
+    <!-- Link to CSS file -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='userProfile.css') }}">
+    <!-- Link to Boxicons for icons -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <!-- Link to Remix Icons for additional icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Navigation bar with links to main menu, profile, settings, and sign out -->
     <nav class="TopBarNav">
+        <!-- Link to the main menu with the HyperFix8 logo -->
         <a href="{{ url_for('mainMenu') }}" class="logo">
             <img src="{{ url_for('static', filename='HyperFix8_Logo_Crop.png') }}" alt="HyperFix8 Logo" class="logo-img">
         </a>
+        <!-- Centered title in the navigation bar -->
         <div class="nav-center-left">
             <h1>Profile</h1>
         </div>
+        <!-- Search bar for user search -->
         <ul>
             <li>
                 <form method="POST" action="{{ url_for('search_user') }}">
@@ -26,22 +35,28 @@
                     <button type="submit">Search</button>
                 </form>
             </li>
+            <!-- Navigation links with icons -->
             <li><a href="{{ url_for('profile') }}" title="Profile"><i class='bx bxs-user-rectangle'></i></a></li>
             <li><a href="{{ url_for('settings') }}" title="Settings"><i class='bx bx-cog'></i></a></li>
             <li><a href="{{ url_for('signout') }}" title="Sign Out"><i class='bx bx-exit' ></i></a></li>
         </ul>
     </nav>
+    <!-- Main area for displaying user profile information -->
     <div class="main-content">
+        <!-- Display user's username -->
         <h1 class="username-text">{{ username }}</h1>
+        <!-- Display follow buttons with counts -->
         <div class="follow-buttons">
             <a href="{{ url_for('following', username=username) }}" class="follow-button">Following<br><span class="count">{{ following_count }}</span></a>
             <a href="{{ url_for('followers', username=username) }}" class="follow-button">Followers<br><span class="count">{{ followers_count }}</span></a>
         </div>
+        <!-- Form to edit the users bio -->
         <form method="POST">
             <label for="bio">Bio:</label><br>
             <textarea name="bio" id="bio" rows="4" cols="50">{{ bio }}</textarea><br>
             <button type="submit" class="menu-button">Save Profile</button>
         </form>
+        <!-- Button to return to the main menu -->
         <a href="{{ url_for('mainMenu') }}" class="menu-button">Return to Main Menu</a>
     </div>
 </body>
