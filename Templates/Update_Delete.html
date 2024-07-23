@@ -36,7 +36,7 @@
                 <h2>Item ID: {{ item['item_id'] }}</h2>
                 <h2>{{ item['item_name'] }}</h2>
                 <p>{{ item['item_description'] }}</p>
-                <a href="{{ url_for('single_Collectable', item_name=item['item_name']) }}">
+                <a>
                     <img src="{{ url_for('static', filename=item['item_picture']) }}" alt="Item Picture">
                 </a>
                 <div>
