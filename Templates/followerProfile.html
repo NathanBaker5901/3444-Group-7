@@ -1,21 +1,29 @@
 <!DOCTYPE html>
+<!-- Define as HTML -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of  webpage -->
     <title>HyperFix8</title>
+    <!-- Link to  CSS file -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='userProfile.css') }}">
+    <!-- Link to Boxicons for icons -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <!-- Link to Remix Icons for additional icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Navigation bar with links to main menu, profile, settings, and sign out -->
     <nav class="TopBarNav">
+        <!-- Link to the main menu as the HyperFix8 logo -->
         <a href="{{ url_for('mainMenu') }}" class="logo">
             <img src="{{ url_for('static', filename='HyperFix8_Logo_Crop.png') }}" alt="HyperFix8 Logo" class="logo-img">
         </a>
+        <!-- Navigation links with icons -->
         <ul>
             <li><a href="{{ url_for('profile') }}" title="Profile"><i class='bx bxs-user-rectangle'></i></a></li>
             <li><a href="{{ url_for('settings') }}" title="Settings"><i class='bx bx-cog'></i></a></li>
@@ -24,12 +32,14 @@
     </nav>
 </head>
 <body>
+    <!-- Main area for displaying user profile information -->
     <h1>Profile </h1>
-
+    <!-- Display user email -->
     <h2>Email name</h2>
+    <!-- Display user password (hidden) -->
     <h2>Password name (That is hidden)</h2>
     <a href="{{ url_for('mainMenu') }}">
-        <!--Buttond for return menu-->
+        <!--Button for return menu-->
         <button style="font-size:25px; background-color: grey; border-radius: 25px;">
         Return to Main Menu
         </button>
