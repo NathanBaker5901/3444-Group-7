@@ -306,22 +306,27 @@ def single_Collectable(item_name):
     #checks for the username in session
     if 'username' in session:
         username = session['username']
-    conn = sqlite3.connect('items.db')
-    c = conn.cursor()
-    c.execute("SELECT * FROM items WHERE item_name=?", (item_name,))
-    item = c.fetchone()
-    conn.close()
-    #Use a similar formual to the items for loop in the show_collectable function to get a signle item name, description, and picture
-    if item:
-        item_dict = {
-            'item_name': item[1],
-            'item_description': item[2],
-            'item_picture': item[3].replace('\\', '/'),
-        }
-        return render_template('single_Collectable.html', item=item_dict, username=username)
-    else:
-        flash('Item not found', 'danger')
-        return redirect(url_for('show_collectable'))  
+        conn = sqlite3.connect('items.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM items WHERE item_name=?", (item_name,))
+        item = c.fetchone()
+        conn.close()
+        #Use a similar formual to the items for loop in the show_collectable function to get a signle item name, description, and picture
+        if item:
+            item_dict = {
+                'item_name': item[1],
+                'item_description': item[2],
+                'item_picture': item[3].replace('\\', '/'),
+            }
+            visited_user = session.get('visiyed_user')
+            return render_template('single_Collectable.html', item=item_dict, username=username)
+        else:
+            flash('Item not found', 'danger')
+            return redirect(url_for('show_collectable'))  
+    
+@app.route('/visit_collectable/<item_name>', methods=['GET'])
+def visit_single_Collectable(item_name):
+    return render_template('Visitsingle_collectable.html', item_name=item_name)
 
 @app.route('/settings')
 def settings():
@@ -390,6 +395,7 @@ def search_user():
 
 @app.route('/visitUserProfile/<username>')
 def visit_user_profile(username):
+    session['visited_user'] = username
     user_profile = ProfileDB.get_profile(username)
     if user_profile:
         is_following = False
@@ -398,17 +404,28 @@ def visit_user_profile(username):
             following = FollowDB.get_following(current_username)
             if username in [user[0] for user in following]:
                 is_following = True
-
         # Fetch the counts using the new functions
         following_count = FollowDB.get_other_user_following(username)
         followers_count = FollowDB.get_other_user_followers(username)
+
+        #fetch the items for the visited user 
+        items = Item.get_user_items(username)
+
+        processed_items = []
+        for item in items:
+            processed_items.append({
+                'item_name': item[1],
+                'item_description': item[2],
+                'item_picture': item[3].replace('\\', '/'),
+            })
 
         return render_template('visitUserProfile.html', 
                                username=user_profile[1], 
                                bio=user_profile[2], 
                                is_following=is_following, 
                                following_count=following_count, 
-                               followers_count=followers_count)
+                               followers_count=followers_count,
+                               items=processed_items)     
     else:
         return "User not found", 404
     
