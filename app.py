@@ -110,11 +110,17 @@ class Item:
             conn.close()
 
     #static method to get each item from a user in order to correctly display the items
-    @staticmethod
-    def get_user_items(user_id):
+    @staticmethod 
+    #connect to the items database and determine if the user chose to sort the items by name
+    def get_user_items(user_id, order=None):
         conn = sqlite3.connect('items.db')
         c = conn.cursor()
-        c.execute("SELECT * FROM items WHERE user_id=?", (user_id,))
+        #query to get all items from the user
+        query = "SELECT * FROM items WHERE user_id=?"
+        if order:
+            #sort items by name
+            query += " ORDER BY item_name " + order
+        c.execute(query, (user_id,))
         items = c.fetchall()
         conn.close()
         return items
@@ -284,8 +290,10 @@ def show_collectable():
     #checks for the username in session 
     if 'username' in session:
         username = session['username']
+        #only sort if user chooses too
+        order = request.args.get('order')
         #get the items for that user
-        items = Item.get_user_items(username)
+        items = Item.get_user_items(username, order)
         processed_items = []
         #for loop find each item so all of the items will be displayed with the name, description, and picture
         for item in items:
@@ -294,7 +302,7 @@ def show_collectable():
                 'item_description': item[2],
                 'item_picture': item[3].replace('\\', '/'),  # Normalize path separators
             })
-        return render_template('show_Collectable.html', items=processed_items, username=username)
+        return render_template('show_Collectable.html', items=processed_items, username=username, order=order)
     else:
         #if the user is not logged in, redirect to the login page
         flash("User not logged in")

@@ -56,7 +56,11 @@
         <label for="item_name"> Item Name: </label>
         <input type="search" id="item_name" name="item_name" reqiuired>
     </div>
-    
+    <!-- Add a drop down in order to sort the items by name ascending or descending -->
+     <div>
+        <a href="{{ url_for('show_collectable', order='asc') }}">Sort by Name (A-Z)</a>
+        <a href="{{ url_for('show_collectable', order='desc') }}">Sort by Name (Z-A)</a>
+     </div>
     <div class="item-grid">
         {% for item in items %}
             <div class="item">
