@@ -19,7 +19,7 @@
             <img src="{{ url_for('static', filename='HyperFix8_Logo_Crop.png') }}" alt="HyperFix8 Logo" class="logo-img">
         </a>
         <div class="nav-center-left">
-            <h1>Update/Delete</h1>
+            <h1>Delete</h1>
         </div>
         <ul>
             <li><a href="{{ url_for('profile') }}" title="Profile"><i class='bx bxs-user-rectangle'></i></a></li>
@@ -28,7 +28,7 @@
         </ul>
     </nav>
 
-    <h1>Update / Delete Menu</h1>
+    <h1>Delete Collectable Menu</h1>
 
     <div class="item-grid">
         {% for item in items %}
@@ -40,8 +40,6 @@
                     <img src="{{ url_for('static', filename=item['item_picture']) }}" alt="Item Picture">
                 </a>
                 <div>
-                    <!-- Update button (currently inactive) -->
-                    <button type="button" onclick="alert('Update functionality is not implemented yet')">Update</button>
                     
                     <!-- Delete form -->
                     <form action="{{ url_for('update_delete') }}" method="POST" style="display:inline;">
