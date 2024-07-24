@@ -156,18 +156,15 @@ class Item:
 
     @staticmethod
     def delete_item(item_id):
-        conn = None
         try:
-            conn = conn = sqlite3.connect('items.db')
+            item_id = int(item_id)  # Ensure item_id is an integer
+            conn = sqlite3.connect('items.db')
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
-            cursor.execute('DELETE FROM items WHERE id = ?', (item_id))
+            cursor.execute('DELETE FROM items WHERE id = ?', (item_id,))
             conn.commit()
-        except sqlite3.Error as e:
-            print(f"An error occurred: {e}")
         finally:
-            if conn:
-                conn.close()
+            conn.close()
 
 @app.route('/')
 def home(): 
